@@ -15,6 +15,7 @@ namespace DB_Project.Models.ViewModels
             Price = item.Price;
 
             Seller = seller.Name;
+            SellerId = seller.Id.ToString();
         }
 
         public string Id { get; set; }
@@ -22,5 +23,6 @@ namespace DB_Project.Models.ViewModels
         public int Count { get; set; }
         public double Price { get; set; }
         public string Seller { get; set; }
+        public string SellerId { get; set; }
     }
 }

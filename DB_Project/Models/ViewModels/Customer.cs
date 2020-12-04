@@ -12,10 +12,14 @@ namespace DB_Project.Models.ViewModels
             Id = customer.Id.ToString();
             Name = customer.Name;
             Phone = customer.Phone;
+
+            if (customer.Cart != null)
+                CartId = customer.Cart.Id.ToString();
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
+        public string CartId { get; set; }
     }
 }

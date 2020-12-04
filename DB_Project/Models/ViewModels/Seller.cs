@@ -12,12 +12,14 @@ namespace DB_Project.Models.ViewModels
             Id = seller.Id.ToString();
             Name = seller.Name;
             Address = seller.Address;
-            isActive = seller.isActive;
+            IsActive = seller.IsActive;
+            ItemIds = seller.Items.Select(item => item.Id.ToString()).ToArray();
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
+        public string[] ItemIds { get; set; }
     }
 }

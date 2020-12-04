@@ -54,49 +54,142 @@ namespace DB_Project.Models
 
         public Seller GetSeller(BsonValue id)
         {
-            var filter_id = Builders<Seller>.Filter.Eq("_id", id);
+            var filter_id = GetFilterById<Seller>(id);
 
             return Sellers.Find(filter_id).FirstOrDefault();
         }
 
         public Item GetItem(BsonValue id)
         {
-            var filter_id = Builders<Item>.Filter.Eq("_id", id);
+            var filter_id = GetFilterById<Item>(id);
 
             return Items.Find(filter_id).FirstOrDefault();
         }
 
         public Customer GetCustomer(BsonValue id)
         {
-            var filter_id = Builders<Customer>.Filter.Eq("_id", id);
+            var filter_id = GetFilterById<Customer>(id);
 
             return Customers.Find(filter_id).FirstOrDefault();
         }
 
         public Cart GetCart(BsonValue id)
         {
-            var filter_id = Builders<Cart>.Filter.Eq("_id", id);
+            var filter_id = GetFilterById<Cart>(id);
 
             return Carts.Find(filter_id).FirstOrDefault();
         }
 
         public Order GetOrder(BsonValue id)
         {
-            var filter_id = Builders<Order>.Filter.Eq("_id", id);
+            var filter_id = GetFilterById<Order>(id);
 
             return Orders.Find(filter_id).FirstOrDefault();
         }
 
+        public void EditCart(Cart cart)
+        {
+            if (cart.Id != ObjectId.Empty)
+                UpdateCart(cart);
+            else
+                Carts.InsertOne(cart);
+        }
+
+        public void EditCustomer(Customer customer)
+        {
+            if (customer.Id != ObjectId.Empty)
+                UpdateCustomer(customer);
+            else
+                Customers.InsertOne(customer);
+        }
+
+        public void EditItem(Item item)
+        {
+            if (item.Id != ObjectId.Empty)
+                UpdateItem(item);
+            else
+                Items.InsertOne(item);
+        }
+
+        public void EditOrder(Order order)
+        {
+            if (order.Id != ObjectId.Empty)
+                UpdateOrder(order);
+            else
+                Orders.InsertOne(order);
+        }
+
+        public void EditSeller(Seller seller)
+        {
+            if (seller.Id != ObjectId.Empty)
+                UpdateSeller(seller);
+            else
+                Sellers.InsertOne(seller);
+        }
+
+        public void DeleteCart(string id)
+        {
+            var filter_id = GetFilterById<Cart>(ObjectId.Parse(id));
+
+            Carts.DeleteOne(filter_id);
+        }
+        public void DeleteCart(ObjectId id)
+        {
+            var filter_id = GetFilterById<Cart>(id);
+
+            Carts.DeleteOne(filter_id);
+        }
+
+        public void DeleteCustomer(string id)
+        {
+            var filter_id = GetFilterById<Customer>(ObjectId.Parse(id));
+
+            Customers.DeleteOne(filter_id);
+        }
+        public void DeleteCustomer(ObjectId id)
+        {
+            var filter_id = GetFilterById<Customer>(id);
+
+            Customers.DeleteOne(filter_id);
+        }
+
         public void DeleteItem(string id)
         {
-            var filter_id = Builders<Item>.Filter.Eq("_id", ObjectId.Parse(id));
+            var filter_id = GetFilterById<Item>(ObjectId.Parse(id));
+
+            Items.DeleteOne(filter_id);
+        }
+        public void DeleteItem(ObjectId id)
+        {
+            var filter_id = GetFilterById<Item>(id);
 
             Items.DeleteOne(filter_id);
         }
 
-        public void PostItem(Item item)
+        public void DeleteOrder(string id)
         {
-            Items.InsertOne(item);
+            var filter_id = GetFilterById<Order>(ObjectId.Parse(id));
+
+            Orders.DeleteOne(filter_id);
+        }
+        public void DeleteOrder(ObjectId id)
+        {
+            var filter_id = GetFilterById<Order>(id);
+
+            Orders.DeleteOne(filter_id);
+        }
+
+        public void DeleteSeller(string id)
+        {
+            var filter_id = GetFilterById<Seller>(ObjectId.Parse(id));
+
+            Sellers.DeleteOne(filter_id);
+        }
+        public void DeleteSeller(ObjectId id)
+        {
+            var filter_id = GetFilterById<Seller>(id);
+
+            Sellers.DeleteOne(filter_id);
         }
 
         public async Task<bool> FillWithFakeData()
@@ -125,7 +218,7 @@ namespace DB_Project.Models
 
             var sellers = new List<Seller>();
             for (int i = 0; i < sellerNames.Length; i++)
-                sellers.Add(new Seller { Name = sellerNames[i], Address = sellerAddress[i], isActive = i % 3 != 2});
+                sellers.Add(new Seller { Name = sellerNames[i], Address = sellerAddress[i], IsActive = i % 3 != 2});
 
             await Sellers.InsertManyAsync(sellers);
 
@@ -184,31 +277,31 @@ namespace DB_Project.Models
             }
 
             sellers[0].Items = items.Where((item, index) => index == 0 || index == 1).Select(item => new MongoDBRef("Item", item.Id)).ToArray();
-            await UpdateSeller(sellers[0]);
+            UpdateSeller(sellers[0]);
             items[0].Seller = new MongoDBRef("Seller", sellers[0].Id);
-            await UpdateItem(items[0]);
+            UpdateItem(items[0]);
             items[1].Seller = new MongoDBRef("Seller", sellers[0].Id);
-            await UpdateItem(items[1]);
+            UpdateItem(items[1]);
             sellers[1].Items = items.Where((item, index) => index == 2 || index == 3).Select(item => new MongoDBRef("Item", item.Id)).ToArray();
-            await UpdateSeller(sellers[1]);
+            UpdateSeller(sellers[1]);
             items[2].Seller = new MongoDBRef("Seller", sellers[1].Id);
-            await UpdateItem(items[2]);
+            UpdateItem(items[2]);
             items[3].Seller = new MongoDBRef("Seller", sellers[1].Id);
-            await UpdateItem(items[3]);
+            UpdateItem(items[3]);
             sellers[2].Items = items.Where((item, index) => index == 4 || index == 5).Select(item => new MongoDBRef("Item", item.Id)).ToArray();
-            await UpdateSeller(sellers[2]);
+            UpdateSeller(sellers[2]);
             items[4].Seller = new MongoDBRef("Seller", sellers[2].Id);
-            await UpdateItem(items[4]);
+            UpdateItem(items[4]);
             items[5].Seller = new MongoDBRef("Seller", sellers[2].Id);
-            await UpdateItem(items[5]);
+            UpdateItem(items[5]);
             sellers[3].Items = items.Where((item, index) => index == 6).Select(item => new MongoDBRef("Item", item.Id)).ToArray();
-            await UpdateSeller(sellers[3]);
+            UpdateSeller(sellers[3]);
             items[6].Seller = new MongoDBRef("Seller", sellers[3].Id);
-            await UpdateItem(items[6]);
+            UpdateItem(items[6]);
             sellers[4].Items = items.Where((item, index) => index == 7).Select(item => new MongoDBRef("Item", item.Id)).ToArray();
-            await UpdateSeller(sellers[4]);
+            UpdateSeller(sellers[4]);
             items[7].Seller = new MongoDBRef("Seller", sellers[4].Id);
-            await UpdateItem(items[7]);
+            UpdateItem(items[7]);
 
             return true;
         }
@@ -236,16 +329,39 @@ namespace DB_Project.Models
             return start.AddDays(rand.Next(range));
         }
 
-        private async Task UpdateSeller(Seller seller)
+        private void UpdateSeller(Seller seller)
         {
             var filter = Builders<Seller>.Filter.Eq(x => x.Id, seller.Id);
-            await Sellers.ReplaceOneAsync(filter, seller, new ReplaceOptions() { IsUpsert = false });
+            Sellers.ReplaceOne(filter, seller, new ReplaceOptions() { IsUpsert = true });
         }
 
-        private async Task UpdateItem(Item item)
+        private void UpdateItem(Item item)
         {
             var filter = Builders<Item>.Filter.Eq(x => x.Id, item.Id);
-            await Items.ReplaceOneAsync(filter, item, new ReplaceOptions() { IsUpsert = false });
+            Items.ReplaceOne(filter, item, new ReplaceOptions() { IsUpsert = true });
+        }
+
+        private void UpdateCart(Cart cart)
+        {
+            var filter = Builders<Cart>.Filter.Eq(x => x.Id, cart.Id);
+            Carts.ReplaceOne(filter, cart, new ReplaceOptions() { IsUpsert = true });
+        }
+
+        private void UpdateCustomer(Customer customer)
+        {
+            var filter = Builders<Customer>.Filter.Eq(x => x.Id, customer.Id);
+            Customers.ReplaceOne(filter, customer, new ReplaceOptions() { IsUpsert = true });
+        }
+
+        private void UpdateOrder(Order order)
+        {
+            var filter = Builders<Order>.Filter.Eq(x => x.Id, order.Id);
+            Orders.ReplaceOne(filter, order, new ReplaceOptions() { IsUpsert = true });
+        }
+
+        private FilterDefinition<T> GetFilterById<T>(BsonValue id)
+        {
+            return Builders<T>.Filter.Eq("_id", id);
         }
     }
 }
