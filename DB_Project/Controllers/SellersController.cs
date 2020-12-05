@@ -20,8 +20,9 @@ namespace DB_Project.Controllers
         public string GetSellers()
         {
             var sellers = _dbService.GetSellers();
+            var items = _dbService.GetItems();
 
-            var viewSellers = sellers.Select(seller => new Seller(seller));
+            var viewSellers = sellers.Select((seller, index) => new Seller(seller, items.Where(item => seller.Items.Select(i => i.Id).Contains(item.Id)).ToArray()));
 
             return JsonSerializer.Serialize(viewSellers);
         }
@@ -30,8 +31,9 @@ namespace DB_Project.Controllers
         public string GetSeller(string id)
         {
             var seller = _dbService.GetSeller(id);
+            var items = seller.Items.Select(item => _dbService.GetItem(item.Id)).ToArray();
 
-            var viewSeller = new Seller(seller);
+            var viewSeller = new Seller(seller, items);
 
             return JsonSerializer.Serialize(viewSeller);
         }

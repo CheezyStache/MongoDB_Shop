@@ -14,15 +14,13 @@ namespace DB_Project.Models.ViewModels
             Count = item.Count;
             Price = item.Price;
 
-            Seller = seller.Name;
-            SellerId = seller.Id.ToString();
+            Seller = new Entity(seller.Id.ToString(), seller.Name);
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
         public double Price { get; set; }
-        public string Seller { get; set; }
-        public string SellerId { get; set; }
+        public Entity Seller { get; set; }
     }
 }

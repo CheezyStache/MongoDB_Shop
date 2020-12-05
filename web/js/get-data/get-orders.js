@@ -14,16 +14,17 @@ function getOrders() {
                                                       <p>Date: ${new Date(
                                                         element.DateTimeStamp
                                                       ).toUTCString()}</p>
-                                                      <p>IsCompleted: ${
+                                                      <p>${
                                                         element.IsCompleted
+                                                          ? "Order is completed"
+                                                          : "Order is not completed"
                                                       }</p>
-                                                      <p>CustomerId: ${
-                                                        element.CustomerId
+                                                      <p>Customer: ${
+                                                        element.Customer.Name
                                                       }</p>
-                                                      <p>ItemIds: ${element.ItemIds.map(
-                                                        (itemId) =>
-                                                          itemId + ",\n"
-                                                      )}</p>
+                                                      <p>Items:<br/>${element.Items.map(
+                                                        (item) => item.Name
+                                                      ).join("<br/>")}</p>
                                                       </div>
                                                       <div class="snipcart-details top_brand_home_details">
                                                         <form action="#" method="post" aligh = "write">

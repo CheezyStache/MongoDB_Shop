@@ -17,9 +17,10 @@ function getCustomers() {
                                                           <p>Phone: ${
                                                             element.Phone
                                                           }</p>
-                                                          <p>CartId: ${
-                                                            element.CartId ??
-                                                            "cart is empty"
+                                                          <p>Cart: ${
+                                                            element.CartId
+                                                              ? "cart exists"
+                                                              : "cart is empty"
                                                           }</p>
                                                           </div>
                                                           <div class="snipcart-details top_brand_home_details">

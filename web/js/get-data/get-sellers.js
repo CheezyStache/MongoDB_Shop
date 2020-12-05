@@ -17,13 +17,14 @@ function getSellers() {
                                                         <p>Address: ${
                                                           element.Address
                                                         }</p>
-                                                        <p>IsActive: ${
+                                                        <p>${
                                                           element.IsActive
+                                                            ? "Seller is active"
+                                                            : "Seller is not active"
                                                         }</p>
-                                                        <p>ItemIds: ${element.ItemIds.map(
-                                                          (itemId) =>
-                                                            itemId + ",\n"
-                                                        )}</p>
+                                                        <p>Items:<br/>${element.Items.map(
+                                                          (item) => item.Name
+                                                        ).join("<br/>")}</p>
                                                         </div>
                                                         <div class="snipcart-details top_brand_home_details">
                                                           <form action="#" method="post" aligh = "write">

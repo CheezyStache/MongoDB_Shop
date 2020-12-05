@@ -20,8 +20,10 @@ namespace DB_Project.Controllers
         public string GetOrders()
         {
             var orders = _dbService.GetOrders();
+            var items = _dbService.GetItems();
+            var customers = orders.Select(order => _dbService.GetCustomer(order.Customer.Id)).ToArray();
 
-            var viewOrders = orders.Select(order => new Order(order));
+            var viewOrders = orders.Select((order, index) => new Order(order, customers[index], items.Where(item => order.Items.Select(i => i.Id).Contains(item.Id)).ToArray()));
 
             return JsonSerializer.Serialize(viewOrders);
         }
@@ -30,8 +32,10 @@ namespace DB_Project.Controllers
         public string GetOrder(string id)
         {
             var order = _dbService.GetOrder(id);
+            var items = order.Items.Select(item => _dbService.GetItem(item.Id)).ToArray();
+            var customer = _dbService.GetCustomer(order.Customer.Id);
 
-            var viewOrder = new Order(order);
+            var viewOrder = new Order(order, customer, items);
 
             return JsonSerializer.Serialize(viewOrder);
         }

@@ -34,7 +34,7 @@ $(function () {
       json.forEach((element) => {
         document.getElementById(
           "orders-list"
-        ).innerHTML += `<li><a href="">${element.Id}</a></li>`;
+        ).innerHTML += `<li><a href="">Customer: ${element.Customer.Name}</a></li>`;
       });
     })
   );
@@ -44,7 +44,7 @@ $(function () {
       json.forEach((element) => {
         document.getElementById(
           "carts-list"
-        ).innerHTML += `<li><a href="">${element.Id}</a></li>`;
+        ).innerHTML += `<li><a href="">Customer: ${element.Customer.Name}</a></li>`;
       });
     })
   );
