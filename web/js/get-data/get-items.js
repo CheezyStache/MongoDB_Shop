@@ -51,23 +51,6 @@ function deleteItem(id) {
   });
 }
 
-// fetch("https://localhost:5001/api/test/sellers").then((result) =>
-//   result.json().then((json) => {
-//     var sellerElement = document.getElementById("seller");
-//     if (sellerElement != undefined) sellerElement.innerHTML = "";
-
-//     json.forEach((element) => {
-//       document.getElementById(
-//         "sellers-list"
-//       ).innerHTML += `<li><a href="">${element.Name}</a></li>`;
-
-//       var sellerElement = document.getElementById("seller");
-//       if (sellerElement != undefined)
-//         sellerElement.innerHTML += `<option value="${element.Id}">${element.Name}</option>`;
-//     });
-//   })
-// );
-
 $(function () {
   getItems();
 });
