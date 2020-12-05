@@ -45,7 +45,7 @@ namespace DB_Project.Controllers
             _dbService.EditItem(itemDb);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void DeleteItem(string id)
         {
             _dbService.DeleteItem(id);

@@ -43,7 +43,7 @@ namespace DB_Project.Controllers
             _dbService.EditCart(cartDb);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void DeleteCart(string id)
         {
             _dbService.DeleteCart(id);

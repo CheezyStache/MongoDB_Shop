@@ -43,7 +43,7 @@ namespace DB_Project.Controllers
             _dbService.EditSeller(sellerDb);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void DeleteSeller(string id)
         {
             _dbService.DeleteSeller(id);

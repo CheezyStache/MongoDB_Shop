@@ -43,7 +43,7 @@ namespace DB_Project.Controllers
             _dbService.EditOrder(orderDb);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void DeleteOrder(string id)
         {
             _dbService.DeleteOrder(id);
