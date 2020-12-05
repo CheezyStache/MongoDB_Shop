@@ -9,6 +9,9 @@ html, body{
 /*	font-family: 'Open Sans', sans-serif;*/
 	background:#ffffff;
 }
+.acth:hover {
+    color: #35d6f2;
+}
 .button_Delete {
   color: red;
   margin-bottom: 10px;
