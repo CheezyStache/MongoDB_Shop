@@ -163,15 +163,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="container">
 				<h3>Edit Cart</h3>
 				<div class="login-form-grids animated wow slideInUp" >
-					<form action = "https://localhost:5001/api/test/items" method="POST">
+					<form id="anph">
 						<!-- <input type="text" name="Item" placeholder="Item" required=" "> -->
 						<!-- <input type="number" name="Count" placeholder="Count" required=" "> -->
 						<!-- <input type="number" name="Price" placeholder="Price" required=" "> -->
 						Choose cart:
 						<select id="order" name="order">
 						</select>
-						<input type="submit" value="Delete">
+						
 					</form>
+					<button id="grap">Delete</button>
 				</div>
 				</div>
 		</div>
@@ -188,5 +189,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/get-data.js"></script>
+<script src="js/utils.js"></script>
+<script>
+$(function(){
+  $(document).on('click', '#grap', function() {
+
+  var formData = $('#anph').serializeArray(),
+      rs = formObj2Json(formData);
+	  var data = JSON.stringify(rs, undefined, 2)
+	  sendDataToAPI("https://localhost:5001/api/items", data, 'POST')
+});
+
+})
+</script>
 </body>
 </html>
