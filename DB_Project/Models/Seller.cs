@@ -10,14 +10,14 @@ namespace DB_Project.Models
     public class Seller
     {
         public Seller() { }
-        public Seller(string name, string address, bool IsActive, ObjectId[] itemIds, ObjectId? id = null)
+        public Seller(string name, string address, bool isActive, ObjectId[] itemIds, ObjectId? id = null)
         {
             if (id.HasValue)
                 Id = id.Value;
 
             Name = name;
             Address = address;
-            IsActive = IsActive;
+            IsActive = isActive;
             Items = itemIds.Select(itemId => new MongoDBRef("Item", itemId)).ToArray();
         }
 
