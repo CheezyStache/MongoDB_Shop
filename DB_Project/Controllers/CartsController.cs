@@ -41,16 +41,20 @@ namespace DB_Project.Controllers
         }
 
         [HttpPost]
-        public void EditCart([FromForm] Models.SaveModels.Cart cart)
+        public IActionResult EditCart(Models.SaveModels.Cart cart)
         {
             var cartDb = cart.GetDbCart();
             _dbService.EditCart(cartDb);
+
+            return new OkResult();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteCart(string id)
+        public IActionResult DeleteCart(string id)
         {
             _dbService.DeleteCart(id);
+
+            return new OkResult();
         }
     }
 }
