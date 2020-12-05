@@ -46,7 +46,7 @@ function getSellers() {
 }
 
 function deleteSeller(id) {
-  fetch("https://localhost:5001/api/sellers?id=" + id, {
+  fetch("https://localhost:5001/api/sellers/" + id, {
     method: "DELETE",
   }).then(() => {
     getSellers();

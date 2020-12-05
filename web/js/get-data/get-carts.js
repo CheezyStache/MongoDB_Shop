@@ -40,7 +40,7 @@ function getCarts() {
 }
 
 function deleteCart(id) {
-  fetch("https://localhost:5001/api/carts?id=" + id, {
+  fetch("https://localhost:5001/api/carts/" + id, {
     method: "DELETE",
   }).then(() => {
     getCarts();

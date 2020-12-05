@@ -44,7 +44,8 @@ function getItems() {
 }
 
 function deleteItem(id) {
-  fetch("https://localhost:5001/api/items?id=" + id, {
+  console.log(id);
+  fetch("https://localhost:5001/api/items/" + id, {
     method: "DELETE",
   }).then(() => {
     getItems();

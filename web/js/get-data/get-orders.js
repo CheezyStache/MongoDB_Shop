@@ -46,7 +46,7 @@ function getOrders() {
 }
 
 function deleteOrder(id) {
-  fetch("https://localhost:5001/api/orders?id=" + id, {
+  fetch("https://localhost:5001/api/orders/" + id, {
     method: "DELETE",
   }).then(() => {
     getOrders();

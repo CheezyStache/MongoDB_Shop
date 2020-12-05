@@ -43,7 +43,7 @@ function getCustomers() {
 }
 
 function deleteCustomer(id) {
-  fetch("https://localhost:5001/api/customers?id=" + id, {
+  fetch("https://localhost:5001/api/customers/" + id, {
     method: "DELETE",
   }).then(() => {
     getCustomers();
