@@ -3,8 +3,10 @@ function getSellers() {
     result.json().then((json) => {
       var itemCardsElement = document.getElementById("seller-cards");
       itemCardsElement.innerHTML = "";
-      json.forEach((element) => {
-        itemCardsElement.innerHTML += `<div class="col-md-3 top_brand_left-1">
+
+      if (json.length !== 0)
+        json.forEach((element) => {
+          itemCardsElement.innerHTML += `<div class="col-md-3 top_brand_left-1">
                                               <div class="hover14 column">
                                                 <div class="agile_top_brand_left_grid">
                                                   <div class="agile_top_brand_left_grid1">
@@ -28,7 +30,9 @@ function getSellers() {
                                                         </div>
                                                         <div class="snipcart-details top_brand_home_details">
                                                           <form action="#" method="post" aligh = "write">
-                                                              <input type="submit" name="edit" value="Edit" class="button_Edit">
+                                                              <input type="button" name="edit" value="Edit" class="button_Edit" onClick="location.href='edit seller.html?id=${
+                                                                element.Id
+                                                              }';">
                                                               <input type="hidden" name="cmd" value="_cart">
                                                               <input type="button" name="delete" value="Delete" class="button_Delete" onClick="deleteSeller('${
                                                                 element.Id
@@ -41,7 +45,11 @@ function getSellers() {
                                                 </div>
                                               </div>
                                             </div>`;
-      });
+        });
+      else
+        itemCardsElement.innerHTML += `<div style="text-align:center">
+                                            There is no sellers
+                                      </div>`;
     })
   );
 }
@@ -51,6 +59,7 @@ function deleteSeller(id) {
     method: "DELETE",
   }).then(() => {
     getSellers();
+    loadHeader();
   });
 }
 

@@ -11,6 +11,10 @@ $(function () {
       });
     })
   );
+
+  var userId = getUserid();
+  if (userId.length === 0)
+    document.getElementById("logout").style = "display:none";
 });
 
 function loginCookie(data) {
@@ -18,4 +22,14 @@ function loginCookie(data) {
 
   document.cookie = "username=" + customer.Name;
   document.cookie = "userid=" + customer.Id;
+
+  alert("You logged in as " + customer.Name);
+}
+
+function logout() {
+  document.cookie = "username=";
+  document.cookie = "userid=";
+
+  alert("You logged out");
+  location.reload(true);
 }

@@ -3,8 +3,10 @@ function getItems() {
     result.json().then((json) => {
       var itemCardsElement = document.getElementById("item-cards");
       itemCardsElement.innerHTML = "";
-      json.forEach((element) => {
-        itemCardsElement.innerHTML += `<div class="col-md-3 top_brand_left-1">
+
+      if (json.length !== 0)
+        json.forEach((element) => {
+          itemCardsElement.innerHTML += `<div class="col-md-3 top_brand_left-1">
                                           <div class="hover14 column">
                                             <div class="agile_top_brand_left_grid">
                                               <div class="agile_top_brand_left_grid1">
@@ -28,7 +30,9 @@ function getItems() {
                                                             element.Id
                                                           }';">
                                                           <input type="hidden" name="cmd" value="_cart">
-                                                          <input type="submit" name="submit" value="Add to cart" class="button_Add">
+                                                          <input type="button" name="submit" value="Add to cart" class="button_Add" onClick="addToCart('${
+                                                            element.Id
+                                                          }')">
                                                           <input type="button" name="delete" value="Delete" class="button_Delete" onClick="deleteItem('${
                                                             element.Id
                                                           }')">
@@ -40,8 +44,25 @@ function getItems() {
                                             </div>
                                           </div>
                                         </div>`;
-      });
+        });
+      else
+        itemCardsElement.innerHTML += `<div style="text-align:center">
+                                            There is no items
+                                      </div>`;
     })
+  );
+}
+
+function addToCart(itemId) {
+  var userid = getUserid();
+
+  sendDataToAPI(
+    "https://localhost:5001/api/items/addToCart",
+    JSON.stringify({ itemId: itemId, customerId: userid }),
+    () => {
+      loadHeader();
+      alert("Item was added to cart");
+    }
   );
 }
 
@@ -50,6 +71,7 @@ function deleteItem(id) {
     method: "DELETE",
   }).then(() => {
     getItems();
+    loadHeader();
   });
 }
 

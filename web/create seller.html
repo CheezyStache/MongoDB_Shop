@@ -166,11 +166,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="login-form-grids animated wow slideInUp" >
 					<form id="anph">
 						<input type="text" name="Name" placeholder="Name" required=" ">
-						<!-- <input type="number" name="Count" placeholder="Count" required=" "> -->
-						<!-- <input type="number" name="Price" placeholder="Price" required=" "> -->
-						<!-- <select id="seller" name="Seller"> -->
-						<!-- </select> -->
-						
+						<input type="text" name="Address" placeholder="Address" required=" ">
+						IsActive: <select name="IsActive">
+							<option value="true">True</option>
+							<option value="false">False</option>
+						</select>
 					</form>
 					<button id="grap">Create</button>
 				</div>
@@ -198,7 +198,7 @@ $(function(){
   var formData = $('#anph').serializeArray(),
       rs = formObj2Json(formData);
 	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, () => location.reload(true));
+	  sendDataToAPI("https://localhost:5001/api/sellers", data, () => {alert("Seller was created"); location.reload(true)});
 });
 
 })

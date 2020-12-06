@@ -140,10 +140,39 @@ namespace DB_Project.Models
 
         public void EditItem(Item item)
         {
-            if (item.Id != ObjectId.Empty)
-                UpdateItem(item);
+            if (item.Id == ObjectId.Empty)
+                item.Id = ObjectId.GenerateNewId();
+
+            UpdateItem(item);
+
+            var seller = GetSeller(item.Seller.Id);
+
+            var editedSellers = GetSellers().Where(editedSeller => editedSeller.Items != null && editedSeller.Items.Select(sellerItem => sellerItem.Id.AsObjectId).Contains(item.Id));
+            foreach (var editedSeller in editedSellers)
+            {
+                editedSeller.Items = editedSeller.Items.Where(editedItem => editedItem.Id != item.Id).ToArray();
+                EditSeller(editedSeller);
+            }
+
+            EditSellerItems(seller, item);
+        }
+
+        private void EditSellerItems(Seller seller, Item item)
+        {
+            if (seller.Items != null)
+            {
+                var itemIds = seller.Items.Select(sellerItem => sellerItem.Id);
+                if (!itemIds.Contains(item.Id))
+                {
+                    seller.Items = seller.Items.Append(new MongoDBRef("Item", item.Id)).ToArray();
+                    EditSeller(seller);
+                }
+            }
             else
-                Items.InsertOne(item);
+            {
+                seller.Items = new MongoDBRef[] { new MongoDBRef("Item", item.Id) };
+                EditSeller(seller);
+            }
         }
 
         public void EditOrder(Order order)
@@ -165,6 +194,11 @@ namespace DB_Project.Models
         public void DeleteCart(string id)
         {
             var filter_id = GetFilterById<Cart>(ObjectId.Parse(id));
+            var cart = GetCart(id);
+            var customer = GetCustomer(cart.Customer.Id);
+
+            customer.Cart = null;
+            EditCustomer(customer);
 
             Carts.DeleteOne(filter_id);
         }
@@ -193,6 +227,10 @@ namespace DB_Project.Models
         public void DeleteSeller(string id)
         {
             var filter_id = GetFilterById<Seller>(ObjectId.Parse(id));
+            var seller = GetSeller(id);
+            var itemIds = seller.Items.Select(item => item.Id);
+            foreach (var itemId in itemIds)
+                DeleteItem(itemId.AsObjectId.ToString());
 
             Sellers.DeleteOne(filter_id);
         }
@@ -209,6 +247,7 @@ namespace DB_Project.Models
             {
                 cart = GetCart(customer.Cart.Id.ToString());
                 cart.Items = cart.Items.Append(new MongoDBRef("Item", itemObjectId)).ToArray();
+                EditCart(cart);
                 return;
             }
 
@@ -218,6 +257,17 @@ namespace DB_Project.Models
 
             EditCart(cart);
             EditCustomer(customer);
+        }
+
+        public void CreateOrder(string customerId)
+        {
+            var customer = GetCustomer(customerId);
+            var cart = GetCart(customer.Cart.Id);
+            var itemIds = cart.Items.Select(item => item.Id.AsObjectId).ToArray();
+
+            var order = new Order(DateTime.Now, true, customer.Id, itemIds);
+            EditOrder(order);
+            DeleteCart(cart.Id.ToString());
         }
 
         public async Task<bool> FillWithFakeData()
@@ -366,7 +416,7 @@ namespace DB_Project.Models
         private void UpdateItem(Item item)
         {
             var filter = Builders<Item>.Filter.Eq(x => x.Id, item.Id);
-            Items.ReplaceOne(filter, item, new ReplaceOptions() { IsUpsert = true });
+            var result = Items.ReplaceOne(filter, item, new ReplaceOptions() { IsUpsert = true });
         }
 
         private void UpdateCart(Cart cart)

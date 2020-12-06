@@ -17,9 +17,12 @@ namespace DB_Project.Controllers
         public OrdersController(DBService dBService) : base(dBService) { }
 
         [HttpGet]
-        public string GetOrders()
+        public string GetOrders([FromQuery] string userId)
         {
             var orders = _dbService.GetOrders();
+            if (userId != null && !string.IsNullOrWhiteSpace(userId))
+                orders = orders.Where(order => order.Customer.Id.AsObjectId.ToString() == userId).ToArray();
+
             var items = _dbService.GetItems();
             var customers = orders.Select(order => _dbService.GetCustomer(order.Customer.Id)).ToArray();
 
@@ -43,8 +46,7 @@ namespace DB_Project.Controllers
         [HttpPost]
         public IActionResult EditOrder(Models.SaveModels.Order order)
         {
-            var orderDb = order.GetDbOrder();
-            _dbService.EditOrder(orderDb);
+            _dbService.CreateOrder(order.CustomerId);
 
             return new OkResult();
         }

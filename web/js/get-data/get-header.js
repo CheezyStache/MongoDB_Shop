@@ -5,6 +5,10 @@ $(function () {
 function loadHeader() {
   fetch("https://localhost:5001/api/items").then((result) =>
     result.json().then((json) => {
+      document.getElementById(
+        "items-list"
+      ).innerHTML = `<a href="item.html" class="acth"><h6 class="acth">All Items</h6></a>`;
+
       json.forEach((element) => {
         document.getElementById(
           "items-list"
@@ -15,6 +19,10 @@ function loadHeader() {
 
   fetch("https://localhost:5001/api/customers").then((result) =>
     result.json().then((json) => {
+      document.getElementById(
+        "customers-list"
+      ).innerHTML = `<a href="customer.html" class="acth"><h6 class="acth">All Customers</h6></a>`;
+
       json.forEach((element) => {
         document.getElementById(
           "customers-list"
@@ -25,6 +33,10 @@ function loadHeader() {
 
   fetch("https://localhost:5001/api/sellers").then((result) =>
     result.json().then((json) => {
+      document.getElementById(
+        "sellers-list"
+      ).innerHTML = `<a href="seller.html" class="acth"><h6 class="acth">All Sellers</h6></a>`;
+
       json.forEach((element) => {
         document.getElementById(
           "sellers-list"
@@ -35,6 +47,10 @@ function loadHeader() {
 
   fetch("https://localhost:5001/api/orders").then((result) =>
     result.json().then((json) => {
+      document.getElementById(
+        "orders-list"
+      ).innerHTML = `<a href="order.html" class="acth"><h6 class="acth">All Orders</h6></a>`;
+
       json.forEach((element) => {
         document.getElementById(
           "orders-list"
@@ -45,6 +61,10 @@ function loadHeader() {
 
   fetch("https://localhost:5001/api/carts").then((result) =>
     result.json().then((json) => {
+      document.getElementById(
+        "carts-list"
+      ).innerHTML = `<a href="cart.html" class="acth"><h6 class="acth">All Carts</h6></a>`;
+
       json.forEach((element) => {
         document.getElementById(
           "carts-list"

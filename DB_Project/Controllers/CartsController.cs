@@ -17,9 +17,12 @@ namespace DB_Project.Controllers
         public CartsController(DBService dBService) : base(dBService) { }
 
         [HttpGet]
-        public string GetCarts()
+        public string GetCarts([FromQuery] string userId)
         {
             var carts = _dbService.GetCarts();
+            if (userId != null && !string.IsNullOrWhiteSpace(userId))
+                carts = carts.Where(cart => cart.Customer.Id.AsObjectId.ToString() == userId).ToArray();
+
             var items = _dbService.GetItems();
             var customers = carts.Select(order => _dbService.GetCustomer(order.Customer.Id)).ToArray();
 

@@ -200,7 +200,7 @@ $(function(){
   var formData = $('#anph').serializeArray(),
       rs = formObj2Json(formData);
 	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, () => location.reload(true));
+	  sendDataToAPI("https://localhost:5001/api/items", data, () => {alert("Item was created"); location.reload(true)});
 });
 
 })

@@ -16,7 +16,9 @@ namespace DB_Project.Models.SaveModels
 
         public Models.Seller GetDbSeller()
         {
-            var itemObjectIds = ItemIds.Select(itemId => ObjectId.Parse(itemId)).ToArray();
+            ObjectId[] itemObjectIds = null;
+            if(ItemIds != null)
+                itemObjectIds = ItemIds.Select(itemId => ObjectId.Parse(itemId)).ToArray();
 
             if (Id != null)
                 return new Models.Seller(Name, Address, IsActive, itemObjectIds, ObjectId.Parse(Id));

@@ -10,7 +10,7 @@ namespace DB_Project.Models
     public class Seller
     {
         public Seller() { }
-        public Seller(string name, string address, bool isActive, ObjectId[] itemIds, ObjectId? id = null)
+        public Seller(string name, string address, bool isActive, ObjectId[] itemIds = null, ObjectId? id = null)
         {
             if (id.HasValue)
                 Id = id.Value;
@@ -18,7 +18,9 @@ namespace DB_Project.Models
             Name = name;
             Address = address;
             IsActive = isActive;
-            Items = itemIds.Select(itemId => new MongoDBRef("Item", itemId)).ToArray();
+
+            if(itemIds != null)
+                Items = itemIds.Select(itemId => new MongoDBRef("Item", itemId)).ToArray();
         }
 
         public ObjectId Id { get; set; }

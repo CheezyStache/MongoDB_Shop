@@ -165,13 +165,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<h3>Edit Seller</h3>
 				<div class="login-form-grids animated wow slideInUp" >
 					<form id="anph">
-						<input type="text" name="Name" placeholder="Name" required=" ">
-						<!-- <input type="number" name="Count" placeholder="Count" required=" "> -->
-						<!-- <input type="number" name="Price" placeholder="Price" required=" "> -->
-						<!-- <select id="seller" name="Seller"> -->
-						<!-- </select> -->
+						<input id="seller-name" type="text" name="Name" placeholder="Name" required=" ">
+						<input id="seller-address" type="text" name="Address" placeholder="Address" required=" ">
+						IsActive: <select id="seller-active" name="IsActive">
+							<option value="true">True</option>
+							<option value="false">False</option>
+						</select>
 					</form>
-					<button id="grap">Delete</button>
+					<button id="grap">Edit</button>
 				</div>
 				</div>
 		</div>
@@ -189,6 +190,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/bootstrap.min.js"></script>
 <script src="js/get-data/get-header.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/edit-data/edit-seller.js"></script>
 <script>
 $(function(){
   $(document).on('click', '#grap', function() {
@@ -197,7 +199,7 @@ $(function(){
 	  rs = formObj2Json(formData);
 	  rs.Id = getIdFromURL();
 	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, () => {alert("Item was edited"); location.reload(true)});
+	  sendDataToAPI("https://localhost:5001/api/sellers", data, () => {alert("Item was edited"); location.reload(true)});
 });
 
 })

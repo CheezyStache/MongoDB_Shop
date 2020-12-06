@@ -163,17 +163,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="login">
 			<div class="container">
 				<h3>Create Order</h3>
-				<div class="login-form-grids animated wow slideInUp" >
-					<form id="anph">
-						<!-- <input type="text" name="Item" placeholder="Item" required=" "> -->
-						<!-- <input type="number" name="Count" placeholder="Count" required=" "> -->
-						<!-- <input type="number" name="Price" placeholder="Price" required=" "> -->
-						Choose item:
-						<select id="item" name="item">
-						</select>
-						
-					</form>
-					<button id="grap">Create</button>
+				<div id="order-form" class="login-form-grids animated wow slideInUp" >
 				</div>
 				</div>
 		</div>
@@ -196,10 +186,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 $(function(){
   $(document).on('click', '#grap', function() {
 
-  var formData = $('#anph').serializeArray(),
-      rs = formObj2Json(formData);
-	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, () => location.reload(true));
+	var userId = getUserid();
+
+	var data = JSON.stringify({CustomerId: userId}, undefined, 2);
+	sendDataToAPI("https://localhost:5001/api/orders", data, () => {alert("Order was created"); location.reload(true)});
 });
 
 })
