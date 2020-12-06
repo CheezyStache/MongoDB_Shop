@@ -39,12 +39,10 @@ namespace DB_Project.Controllers
         }
 
         [HttpPost]
-        public string EditItem(Models.SaveModels.Item item)
+        public void EditItem(Models.SaveModels.Item item)
         {
-            Console.Write(item);
             var itemDb = item.GetDbItem();
             _dbService.EditItem(itemDb);
-            return "{status:'success}";
         }
 
         [HttpDelete("{id}")]
