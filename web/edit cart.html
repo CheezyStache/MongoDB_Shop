@@ -173,7 +173,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</select>
 						
 					</form>
-					<button id="grap">Delete</button>
+					<button id="grap">Edit</button>
 				</div>
 				</div>
 		</div>
@@ -189,16 +189,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- //footer -->
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
-<script src="js/get-data.js"></script>
+<script src="js/get-data/get-header.js"></script>
 <script src="js/utils.js"></script>
 <script>
 $(function(){
   $(document).on('click', '#grap', function() {
 
   var formData = $('#anph').serializeArray(),
-      rs = formObj2Json(formData);
+	  rs = formObj2Json(formData);
+	  rs.Id = getIdFromURL();
 	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, () => location.reload(true));
+	  sendDataToAPI("https://localhost:5001/api/carts", data, () => {alert("Cart was edited"); location.reload(true)});
 });
 
 })

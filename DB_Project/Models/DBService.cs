@@ -52,37 +52,72 @@ namespace DB_Project.Models
             return Sellers.Find(new BsonDocument()).ToList().ToArray();
         }
 
-        public Seller GetSeller(BsonValue id)
+        public Seller GetSeller(string id)
         {
-            var filter_id = GetFilterById<Seller>(id);
+            var filter_id = GetFilterById<Seller>(ObjectId.Parse(id));
 
             return Sellers.Find(filter_id).FirstOrDefault();
         }
 
-        public Item GetItem(BsonValue id)
+        public Seller GetSeller(BsonValue id)
         {
-            var filter_id = GetFilterById<Item>(id);
+            var filter_id = GetFilterById<Seller>(id.AsObjectId);
+
+            return Sellers.Find(filter_id).FirstOrDefault();
+        }
+
+        public Item GetItem(string id)
+        {
+            var filter_id = GetFilterById<Item>(ObjectId.Parse(id));
 
             return Items.Find(filter_id).FirstOrDefault();
         }
 
-        public Customer GetCustomer(BsonValue id)
+        public Item GetItem(BsonValue id)
         {
-            var filter_id = GetFilterById<Customer>(id);
+            var filter_id = GetFilterById<Item>(id.AsObjectId);
+
+            return Items.Find(filter_id).FirstOrDefault();
+        }
+
+        public Customer GetCustomer(string id)
+        {
+            var filter_id = GetFilterById<Customer>(ObjectId.Parse(id));
 
             return Customers.Find(filter_id).FirstOrDefault();
         }
 
-        public Cart GetCart(BsonValue id)
+        public Customer GetCustomer(BsonValue id)
         {
-            var filter_id = GetFilterById<Cart>(id);
+            var filter_id = GetFilterById<Customer>(id.AsObjectId);
+
+            return Customers.Find(filter_id).FirstOrDefault();
+        }
+
+        public Cart GetCart(string id)
+        {
+            var filter_id = GetFilterById<Cart>(ObjectId.Parse(id));
 
             return Carts.Find(filter_id).FirstOrDefault();
         }
 
+        public Cart GetCart(BsonValue id)
+        {
+            var filter_id = GetFilterById<Cart>(id.AsObjectId);
+
+            return Carts.Find(filter_id).FirstOrDefault();
+        }
+
+        public Order GetOrder(string id)
+        {
+            var filter_id = GetFilterById<Order>(ObjectId.Parse(id));
+
+            return Orders.Find(filter_id).FirstOrDefault();
+        }
+
         public Order GetOrder(BsonValue id)
         {
-            var filter_id = GetFilterById<Order>(id);
+            var filter_id = GetFilterById<Order>(id.AsObjectId);
 
             return Orders.Find(filter_id).FirstOrDefault();
         }
@@ -133,22 +168,10 @@ namespace DB_Project.Models
 
             Carts.DeleteOne(filter_id);
         }
-        public void DeleteCart(ObjectId id)
-        {
-            var filter_id = GetFilterById<Cart>(id);
-
-            Carts.DeleteOne(filter_id);
-        }
 
         public void DeleteCustomer(string id)
         {
             var filter_id = GetFilterById<Customer>(ObjectId.Parse(id));
-
-            Customers.DeleteOne(filter_id);
-        }
-        public void DeleteCustomer(ObjectId id)
-        {
-            var filter_id = GetFilterById<Customer>(id);
 
             Customers.DeleteOne(filter_id);
         }
@@ -159,22 +182,10 @@ namespace DB_Project.Models
 
             Items.DeleteOne(filter_id);
         }
-        public void DeleteItem(ObjectId id)
-        {
-            var filter_id = GetFilterById<Item>(id);
-
-            Items.DeleteOne(filter_id);
-        }
 
         public void DeleteOrder(string id)
         {
             var filter_id = GetFilterById<Order>(ObjectId.Parse(id));
-
-            Orders.DeleteOne(filter_id);
-        }
-        public void DeleteOrder(ObjectId id)
-        {
-            var filter_id = GetFilterById<Order>(id);
 
             Orders.DeleteOne(filter_id);
         }
@@ -185,24 +196,18 @@ namespace DB_Project.Models
 
             Sellers.DeleteOne(filter_id);
         }
-        public void DeleteSeller(ObjectId id)
-        {
-            var filter_id = GetFilterById<Seller>(id);
-
-            Sellers.DeleteOne(filter_id);
-        }
 
         public void AddToCart(string itemId, string customerId)
         {
             var itemObjectId = ObjectId.Parse(itemId);
             var customerObjectId = ObjectId.Parse(customerId);
 
-            var customer = GetCustomer(customerObjectId);
+            var customer = GetCustomer(customerObjectId.ToString());
 
             Cart cart = null;
             if(customer.Cart != null)
             {
-                cart = GetCart(customer.Cart.Id);
+                cart = GetCart(customer.Cart.Id.ToString());
                 cart.Items = cart.Items.Append(new MongoDBRef("Item", itemObjectId)).ToArray();
                 return;
             }
@@ -382,7 +387,7 @@ namespace DB_Project.Models
             Orders.ReplaceOne(filter, order, new ReplaceOptions() { IsUpsert = true });
         }
 
-        private FilterDefinition<T> GetFilterById<T>(BsonValue id)
+        private FilterDefinition<T> GetFilterById<T>(ObjectId id)
         {
             return Builders<T>.Filter.Eq("_id", id);
         }

@@ -17,3 +17,13 @@ async function sendDataToAPI(uri, data, callback) {
     headers: { "content-type": "application/json" },
   }).then(() => callback());
 }
+
+function getIdFromURL() {
+  var url = new URL(window.location.href);
+  return url.searchParams.get("id");
+}
+
+function changeInput(elementId, value) {
+  var element = document.getElementById(elementId);
+  element.value = value;
+}

@@ -24,7 +24,9 @@ function getItems() {
                                                     </div>
                                                     <div class="snipcart-details top_brand_home_details">
                                                       <form action="#" method="post" aligh = "write">
-                                                          <input type="submit" name="edit" value="Edit" class="button_Edit">
+                                                          <input type="button" name="edit" value="Edit" class="button_Edit" onClick="location.href='edit item.html?id=${
+                                                            element.Id
+                                                          }';">
                                                           <input type="hidden" name="cmd" value="_cart">
                                                           <input type="submit" name="submit" value="Add to cart" class="button_Add">
                                                           <input type="button" name="delete" value="Delete" class="button_Delete" onClick="deleteItem('${
@@ -44,7 +46,6 @@ function getItems() {
 }
 
 function deleteItem(id) {
-  console.log(id);
   fetch("https://localhost:5001/api/items/" + id, {
     method: "DELETE",
   }).then(() => {
