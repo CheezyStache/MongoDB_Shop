@@ -192,6 +192,29 @@ namespace DB_Project.Models
             Sellers.DeleteOne(filter_id);
         }
 
+        public void AddToCart(string itemId, string customerId)
+        {
+            var itemObjectId = ObjectId.Parse(itemId);
+            var customerObjectId = ObjectId.Parse(customerId);
+
+            var customer = GetCustomer(customerObjectId);
+
+            Cart cart = null;
+            if(customer.Cart != null)
+            {
+                cart = GetCart(customer.Cart.Id);
+                cart.Items = cart.Items.Append(new MongoDBRef("Item", itemObjectId)).ToArray();
+                return;
+            }
+
+            var itemIds = new ObjectId[] { itemObjectId };
+            cart = new Cart(customerObjectId, itemIds, ObjectId.GenerateNewId());
+            customer.Cart = new MongoDBRef("Cart", cart.Id);
+
+            EditCart(cart);
+            EditCustomer(customer);
+        }
+
         public async Task<bool> FillWithFakeData()
         {
             var rand = new Random();

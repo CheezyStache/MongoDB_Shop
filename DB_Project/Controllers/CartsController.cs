@@ -20,8 +20,10 @@ namespace DB_Project.Controllers
         public string GetCarts()
         {
             var carts = _dbService.GetCarts();
+            var items = _dbService.GetItems();
+            var customers = carts.Select(order => _dbService.GetCustomer(order.Customer.Id)).ToArray();
 
-            var viewCarts = carts.Select(cart => new Cart(cart));
+            var viewCarts = carts.Select((cart, index) => new Cart(cart, customers[index], items.Where(item => cart.Items.Select(i => i.Id).Contains(item.Id)).ToArray()));
 
             return JsonSerializer.Serialize(viewCarts);
         }
@@ -30,23 +32,29 @@ namespace DB_Project.Controllers
         public string GetCart(string id)
         {
             var cart = _dbService.GetCart(id);
+            var items = cart.Items.Select(item => _dbService.GetItem(item.Id)).ToArray();
+            var customer = _dbService.GetCustomer(cart.Customer.Id);
 
-            var viewCart = new Cart(cart);
+            var viewCart = new Cart(cart, customer, items);
 
             return JsonSerializer.Serialize(viewCart);
         }
 
         [HttpPost]
-        public void EditCart([FromForm] Models.SaveModels.Cart cart)
+        public IActionResult EditCart(Models.SaveModels.Cart cart)
         {
             var cartDb = cart.GetDbCart();
             _dbService.EditCart(cartDb);
+
+            return new OkResult();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteCart(string id)
+        public IActionResult DeleteCart(string id)
         {
             _dbService.DeleteCart(id);
+
+            return new OkResult();
         }
     }
 }

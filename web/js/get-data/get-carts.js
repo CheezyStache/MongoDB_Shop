@@ -11,13 +11,14 @@ function getCarts() {
                                                         <figure>
                                                           <div class="snipcart-item block">
                                                             <div class="snipcart-thumb">
-                                                            <p>CustomerId: ${
-                                                              element.CustomerId
+                                                            <p>Customer: ${
+                                                              element.Customer
+                                                                .Name
                                                             }</p>
-                                                            <p>ItemIds: ${element.ItemIds.map(
-                                                              (itemId) =>
-                                                                itemId + ",\n"
-                                                            )}</p>
+                                                            <p>Items:<br/>${element.Items.map(
+                                                              (item) =>
+                                                                item.Name
+                                                            ).join("<br/>")}</p>
                                                             </div>
                                                             <div class="snipcart-details top_brand_home_details">
                                                               <form action="#" method="post" aligh = "write">

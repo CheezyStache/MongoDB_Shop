@@ -19,7 +19,7 @@ function getItems() {
                                                       2
                                                     )}</p>
                                                     <p>Seller: ${
-                                                      element.Seller
+                                                      element.Seller.Name
                                                     }</p>
                                                     </div>
                                                     <div class="snipcart-details top_brand_home_details">
