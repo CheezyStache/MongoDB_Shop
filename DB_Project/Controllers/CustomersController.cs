@@ -37,16 +37,20 @@ namespace DB_Project.Controllers
         }
 
         [HttpPost]
-        public void EditCustomer([FromForm] Models.SaveModels.Customer customer)
+        public IActionResult EditCustomer(Models.SaveModels.Customer customer)
         {
             var customerDb = customer.GetDbCustomer();
             _dbService.EditCustomer(customerDb);
+
+            return new OkResult();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteCustomer(string id)
+        public IActionResult DeleteCustomer(string id)
         {
             _dbService.DeleteCustomer(id);
+
+            return new OkResult();
         }
     }
 }

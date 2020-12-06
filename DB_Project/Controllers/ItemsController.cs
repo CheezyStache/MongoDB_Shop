@@ -45,10 +45,20 @@ namespace DB_Project.Controllers
             _dbService.EditItem(itemDb);
         }
 
+        [HttpPost("addToCart")]
+        public IActionResult AddItemToCart(Models.SaveModels.AddToCart cartItem)
+        {
+            _dbService.AddToCart(cartItem.ItemId, cartItem.CustomerId);
+
+            return new OkResult();
+        }
+
         [HttpDelete("{id}")]
-        public void DeleteItem(string id)
+        public IActionResult DeleteItem(string id)
         {
             _dbService.DeleteItem(id);
+
+            return new OkResult();
         }
     }
 }

@@ -41,16 +41,20 @@ namespace DB_Project.Controllers
         }
 
         [HttpPost]
-        public void EditOrder([FromForm] Models.SaveModels.Order order)
+        public IActionResult EditOrder(Models.SaveModels.Order order)
         {
             var orderDb = order.GetDbOrder();
             _dbService.EditOrder(orderDb);
+
+            return new OkResult();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteOrder(string id)
+        public IActionResult DeleteOrder(string id)
         {
             _dbService.DeleteOrder(id);
+
+            return new OkResult();
         }
     }
 }
