@@ -60,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </button>
         <div class="clearfix"></div>
     </form>-->
-                <h4>Please Log IN</h4>
+                <h4 id="username">Please Log IN</h4>
             </div>
 
 			<div class="clearfix"> </div>
@@ -200,7 +200,7 @@ $(function(){
   var formData = $('#anph').serializeArray(),
       rs = formObj2Json(formData);
 	  var data = JSON.stringify(rs, undefined, 2)
-	  sendDataToAPI("https://localhost:5001/api/items", data, 'POST')
+	  sendDataToAPI("https://localhost:5001/api/items", data, () => location.reload(true));
 });
 
 })

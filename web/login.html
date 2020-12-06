@@ -60,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          </button>
         <div class="clearfix"></div>
     </form>-->
-                <h4>Please Log IN</h4>
+                <h4 id="username">Please Log IN</h4>
             </div>
 
 			<div class="clearfix"> </div>
@@ -163,14 +163,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="container">
 				<h3>Choose Customer</h3>
 				<div class="login-form-grids animated wow slideInUp" >
-					<form action = "https://localhost:5001/api/test/items" method="POST">
+					<form id="anph">
 						<!-- <input type="text" name="Name" placeholder="Name" required=" "> -->
 						<!-- <input type="number" name="Count" placeholder="Count" required=" "> -->
 						<!-- <input type="number" name="Price" placeholder="Price" required=" "> -->
 						Select Customer: <select id="customer" name="customer">
 						</select>
-						<input type="submit" value="Delete">
 					</form>
+					<button id="grap">Login</button>
 				</div>
 				</div>
 		</div>
@@ -186,6 +186,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- //footer -->
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
-<script src="js/get-data.js"></script>
+<script src="js/get-data/get-header.js"></script>
+<script src="js/create-data/login.js"></script>
+<script src="js/utils.js"></script>
+<script>
+	$(function(){
+	  $(document).on('click', '#grap', function() {
+	
+	  var formData = $('#anph').serializeArray();
+	  console.log(formData);
+		  rs = formObj2Json(formData);
+		  loginCookie(rs);
+		  location.reload(true);
+	});
+	
+	})
+	</script>
 </body>
 </html>
